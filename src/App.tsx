@@ -1,26 +1,53 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Component } from 'react';
+import MaterialTable from 'material-table';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  componentDidMount() {
+    fetch('http://localhost:3825/api/jobs')
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ data: data.data })
+    })
+    .catch(console.log)
+  }
+
+  tableRef = React.createRef();
+
+  colRenderCount = 0;
+
+  state = {
+    data: []
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div style={{ maxWidth: '100%' }}>
+        <MaterialTable
+        options={ 
+          {
+            paging: false,
+            grouping: true,
+          } 
+        }
+        columns={[
+          { title: "Project", field: "project_name", defaultGroupOrder: 0 },
+          { title: "Group", field: "group" },
+          { title: "Job Name", field: "name" },
+          { title: "Job Name QA", field: "name_qa" },
+          { title: "Job Name Prod", field: "name_prod" },
+          { title: "Description QA", field: "description_qa" },
+          { title: "Description Prod", field: "description_prod" },
+        ]}
+        data={this.state.data}
+        title="Rundeck Jobs"
+      />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
