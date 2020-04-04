@@ -17,6 +17,14 @@ function getLookupValues(data:any, field:string) {
   return values;
 }
 
+function isEnabled(data:any) {
+  // Returns false if either the schedule or the execution is disabled or both
+  if (data["scheduleEnabled"] && data["executionEnabled"]) {
+    return true;
+  }
+  return false;
+}
+
 declare module "material-table" {
   export interface Column<RowData extends object> {
       width?: string;
@@ -52,20 +60,25 @@ class App extends Component {
             paging: false,
             grouping: true,
             filtering: true,
+            tableLayout: 'fixed',
+            rowStyle: rowData => ({
+              color: isEnabled(rowData) ? '#000' : '#999'
+            })
           } 
         }
         columns={[
-          { title: "Project", field: "project_name", defaultGroupOrder: 0 },
-          { title: "Group", field: "group", },
+          { title: "Project", field: "project_name", width:'12em', defaultGroupOrder: 0 },
+          { title: "Group", field: "group", width:'12em' },
           { title: "Environment", field: 'env', width:'7em', lookup:this.state.environments, 
             render: rowData =>
             <Chip size="small"
               label={rowData['env']}
               style={{backgroundColor: getChipColor(rowData['env_order'])}} /> },
           { title: "Job Name", field: "name", cellStyle: { fontWeight: 'bold' } },
-          { title: "Schedule", field: "schedule_description" },
-          { title: "Schedule Enabled", field: "scheduleEnabled", type: "boolean", width:'10em' },
-          { title: "Description", field: "description" },
+          { title: "Schedule", field: "schedule_description", width:'15em' },
+          { title: "Schedule Enabled", field: "scheduleEnabled", type: "boolean", width:'6em' },
+          { title: "Execution Enabled", field: "executionEnabled", type: "boolean", width:'6em' },
+          { title: "Description", field: "description", cellStyle: { whiteSpace: 'pre-line'} },
         ]}
         data={this.state.data}
         title="Rundeck Jobs"
