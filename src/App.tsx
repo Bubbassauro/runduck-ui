@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import MaterialTable from 'material-table';
 import Chip from '@material-ui/core/Chip';
+import Box from '@material-ui/core/Box'
 
 function getChipColor(env_index: number) {
   const colors = ['#c5e1a5', '#e1bee7', '#81d4fa', '#ffcc80', '#f48fb1', '#a5d6a7']
@@ -31,6 +32,38 @@ declare module "material-table" {
   }
 }
 
+type DetailProps = {
+  data: any
+}
+
+type Job = {
+  description: string
+}
+class Detail extends Component<DetailProps> {
+
+  state = {
+    description: '-'
+  }
+
+  componentDidMount() {
+    const env = this.props.data["env"]
+    const uuid = this.props.data["uuid"]
+    const id = this.props.data["id"]
+    let url = `http://localhost:3825/api/job/${env}/${uuid}`
+    fetch(url)
+    .then(res => res.json())
+    .then((data) => {
+        this.setState({ description: data["description"] })
+    })
+    .catch(console.log)
+  }
+
+  render() {
+    return(<Box p={1}>test: {this.state.description}</Box>)
+  }
+
+}
+
 class App extends Component {
   componentDidMount() {
     fetch('http://localhost:3825/api/jobs')
@@ -47,7 +80,11 @@ class App extends Component {
 
   state = {
     data: [],
-    environments: {}
+    environments: {},
+  }
+
+  getDetails(data:any) {
+    return(<Detail data={data}/>)
   }
 
   render() {
@@ -61,6 +98,7 @@ class App extends Component {
             grouping: true,
             filtering: true,
             tableLayout: 'fixed',
+            padding: 'dense',
             rowStyle: rowData => ({
               color: isEnabled(rowData) ? '#000' : '#999'
             })
@@ -68,19 +106,23 @@ class App extends Component {
         }
         columns={[
           { title: "Project", field: "project_name", width:'12em', defaultGroupOrder: 0 },
-          { title: "Group", field: "group", width:'12em' },
+          { title: "Group", field: "group", width:'15em', cellStyle: { paddingLeft: '50px'} },
           { title: "Environment", field: 'env', width:'7em', lookup:this.state.environments, 
             render: rowData =>
             <Chip size="small"
               label={rowData['env']}
               style={{backgroundColor: getChipColor(rowData['env_order'])}} /> },
-          { title: "Job Name", field: "name", cellStyle: { fontWeight: 'bold' } },
+          { title: "Job Name", field: "name", width: '30%', cellStyle: { fontWeight: 'bold' } },
           { title: "Schedule", field: "schedule_description", width:'15em' },
           { title: "Schedule Enabled", field: "scheduleEnabled", type: "boolean", width:'6em' },
           { title: "Execution Enabled", field: "executionEnabled", type: "boolean", width:'6em' },
-          { title: "Description", field: "description", cellStyle: { whiteSpace: 'pre-line'} },
+          { title: "Description", field: "description", width: '40%', cellStyle: { whiteSpace: 'pre-line'} },
         ]}
         data={this.state.data}
+        detailPanel={rowData => {
+          return this.getDetails(rowData)
+        }}
+        onRowClick={(event, rowData, togglePanel) => { togglePanel && togglePanel() }}
         title="Rundeck Jobs"
       />
         </div>
