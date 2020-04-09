@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import MaterialTable from 'material-table';
 import Chip from '@material-ui/core/Chip';
-import Box from '@material-ui/core/Box'
+import Job from './Job';
 
 function getChipColor(env_index: number) {
   const colors = ['#c5e1a5', '#e1bee7', '#81d4fa', '#ffcc80', '#f48fb1', '#a5d6a7']
@@ -32,38 +32,6 @@ declare module "material-table" {
   }
 }
 
-type DetailProps = {
-  data: any
-}
-
-type Job = {
-  description: string
-}
-class Detail extends Component<DetailProps> {
-
-  state = {
-    description: '-'
-  }
-
-  componentDidMount() {
-    const env = this.props.data["env"]
-    const uuid = this.props.data["uuid"]
-    const id = this.props.data["id"]
-    let url = `http://localhost:3825/api/job/${env}/${uuid}`
-    fetch(url)
-    .then(res => res.json())
-    .then((data) => {
-        this.setState({ description: data["description"] })
-    })
-    .catch(console.log)
-  }
-
-  render() {
-    return(<Box p={1}>test: {this.state.description}</Box>)
-  }
-
-}
-
 class App extends Component {
   componentDidMount() {
     fetch('http://localhost:3825/api/jobs')
@@ -84,7 +52,7 @@ class App extends Component {
   }
 
   getDetails(data:any) {
-    return(<Detail data={data}/>)
+    return(<Job data={data}/>)
   }
 
   render() {
