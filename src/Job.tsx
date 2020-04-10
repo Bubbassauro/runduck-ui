@@ -62,7 +62,7 @@ class Job extends Component<JobProps> {
         return (
             <Box p={1}>
                 {this.state.commands.map((command, i) => {
-                    return (<Box>
+                    return (<Box pl={6}>
                         <Typography key={i} color="textSecondary">
                             {command["description"]}
                         </Typography>
