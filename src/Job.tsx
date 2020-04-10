@@ -19,7 +19,7 @@ function Command(props: CommandProps) {
     if (!props.command) {
         return <Typography />;
     }
-    if (props.typeName == 'exec') {
+    if (props.typeName === 'exec') {
         return (<Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
             <Tooltip title="exec">
                 <Computer fontSize="small" style={{ marginRight:"5px", marginBottom: "-5px" }} />
