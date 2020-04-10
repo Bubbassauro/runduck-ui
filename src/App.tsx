@@ -1,5 +1,5 @@
 import React from 'react';
-import JobList from './JobList';
+import JobList from './components/JobList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 

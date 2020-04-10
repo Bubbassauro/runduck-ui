@@ -2,39 +2,10 @@ import React from 'react';
 import { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import Computer from '@material-ui/icons/Computer';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import Command from './Command';
 
 type JobProps = {
     data: any
-}
-
-type CommandProps = {
-    command: string,
-    typeName: string
-}
-
-function Command(props: CommandProps) {
-    if (!props.command) {
-        return <Typography />;
-    }
-    if (props.typeName === 'exec') {
-        return (<Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
-            <Tooltip title="exec">
-                <Computer fontSize="small" style={{ marginRight:"5px", marginBottom: "-5px" }} />
-            </Tooltip>
-            <code>{props.command}</code>
-        </Typography>)
-    }
-    else {
-        return (<Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
-            <Tooltip title="script">
-                <AssignmentIcon fontSize="small" style={{ marginRight:"5px", marginBottom: "-5px" }} />
-            </Tooltip>
-            <code>{props.command}</code>
-        </Typography>)
-    }
 }
 
 class Job extends Component<JobProps> {
