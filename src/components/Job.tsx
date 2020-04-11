@@ -2,10 +2,12 @@ import React from 'react';
 import { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { withTheme, Theme } from '@material-ui/core/styles';
 import Command from './Command';
 
 type JobProps = {
-    data: any
+    data: any,
+    theme: Theme
 }
 
 class Job extends Component<JobProps> {
@@ -31,20 +33,21 @@ class Job extends Component<JobProps> {
 
     render() {
         return (
-            <Box p={1}>
+            <Box p={1} style={{backgroundColor: this.props.theme.palette.background.default}}>
                 {this.state.commands.map((command, i) => {
-                    return (<Box pl={6}>
-                        <Typography key={i} color="textSecondary">
-                            {command["description"]}
-                        </Typography>
-                        <Command command={command["exec"]} typeName="exec" />
-                        <Command command={command["script"]} typeName="script" />
-                    </Box>
+                    return (
+                        <Box key={i} pl={6} pb={2}>
+                            <Typography color="textSecondary">
+                                {command["description"]}
+                            </Typography>
+                            <Command command={command["exec"]} typeName="exec" />
+                            <Command command={command["script"]} typeName="script" />
+                        </Box>
                     )
                 })}
             </Box>
         )
     }
 }
-
-export default Job;
+const JobWithStyles = withTheme(Job);
+export default JobWithStyles;

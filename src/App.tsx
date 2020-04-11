@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  console.log({prefersDarkMode})
 
   const theme = React.useMemo(
     () =>
