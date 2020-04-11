@@ -1,9 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import { withTheme, Theme } from '@material-ui/core/styles';
 import Command from './Command';
+import Link from '@material-ui/core/Link';
 
 type JobProps = {
     data: any,
@@ -35,15 +35,7 @@ class Job extends Component<JobProps> {
         return (
             <Box p={1} style={{backgroundColor: this.props.theme.palette.background.default}}>
                 {this.state.commands.map((command, i) => {
-                    return (
-                        <Box key={i} pl={6} pb={2}>
-                            <Typography color="textSecondary">
-                                {command["description"]}
-                            </Typography>
-                            <Command command={command["exec"]} typeName="exec" />
-                            <Command command={command["script"]} typeName="script" />
-                        </Box>
-                    )
+                    return (<Command command={command} key={i} />)
                 })}
             </Box>
         )
