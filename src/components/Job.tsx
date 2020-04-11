@@ -3,7 +3,6 @@ import { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import { withTheme, Theme } from '@material-ui/core/styles';
 import Command from './Command';
-import Link from '@material-ui/core/Link';
 
 type JobProps = {
     data: any,

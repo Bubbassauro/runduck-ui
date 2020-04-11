@@ -1,11 +1,16 @@
 import React from 'react';
 import { Component } from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
-import Computer from '@material-ui/icons/Computer';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/icons/Link';
 import Box from '@material-ui/core/Box';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssistantIcon from '@material-ui/icons/Assistant';
+import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
+import Computer from '@material-ui/icons/Computer';
+
+type ConfigurationInfo = {
+    command?: string,
+}
 
 type JobRefInfo = {
     group?: string,
@@ -18,7 +23,10 @@ type CommandInfo = {
     description?: string,
     exec?: string,
     script?: string,
-    jobref?: JobRefInfo
+    jobref?: JobRefInfo,
+    configuration?: ConfigurationInfo,
+    nodeStep?: boolean,
+    type?: string,
 }
 
 type CommandProps = {
@@ -66,9 +74,9 @@ class JobRef extends Component<CommandProps> {
                 <Typography color="textSecondary">
                     {jobRef?.project} {jobRef?.group ? `/ ${jobRef.group}` : ''}
                 </Typography>
-                <Typography>
+                <Typography variant="subtitle1">
                     <Tooltip title="jobref">
-                        <Link fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
+                        <CollectionsBookmarkIcon fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
                     </Tooltip>
                     {jobRef?.name}
                 </Typography>
@@ -76,6 +84,24 @@ class JobRef extends Component<CommandProps> {
         )
     }
 }
+class Configuration extends Component<CommandProps> {
+    render() {
+        return(
+            <Box>
+                <Typography color="textSecondary">
+                    {this.props.command?.type}
+                </Typography>
+                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
+                    <Tooltip title="configuration">
+                        <AssistantIcon fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
+                    </Tooltip>
+                    <code>{this.props.command.configuration?.command}</code>
+                </Typography>
+            </Box>
+        )
+    }
+}
+
 class Command extends Component<CommandProps>   {
     render() {
         let commandType;
@@ -85,9 +111,13 @@ class Command extends Component<CommandProps>   {
         else if(this.props.command.exec) {
             commandType = <Exec command={this.props.command} />
         }
+        else if(this.props.command.configuration) {
+            commandType = <Configuration command={this.props.command} />
+        }
         else {
             commandType = <Script command={this.props.command} />
         }
+
         return (
             <Box pl={6} pb={2}>{commandType}</Box>
         )
