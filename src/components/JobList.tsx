@@ -4,6 +4,8 @@ import MaterialTable from 'material-table';
 import Job from './Job';
 import Environment from './Environment';
 import { withTheme, Theme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 type JobListProps = {
   theme: Theme
@@ -97,8 +99,11 @@ class JobList extends Component<JobListProps> {
           return this.getDetails(rowData)
         }}
         onRowClick={(event, rowData, togglePanel) => { togglePanel && togglePanel() }}
-        title="Rundeck Jobs"
-      />
+        title={<Box>
+            <Typography variant="h6" component="span">Runduck</Typography>
+            <Typography variant="body2" color="textSecondary" component="span">&nbsp;&nbsp;&nbsp;&nbsp;Jobs from multiple Rundecks</Typography>
+          </Box>}
+        />
         </div>
       </div>
     );
