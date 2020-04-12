@@ -1,3 +1,14 @@
+# Runduck-UI
+
+This is the UI portion of Runduck. For the API backend and application, check out the Runduck project.
+
+Currently, Runduck-UI is being manually built and included in Runduck.
+
+1. Set the API url with: `export PUBLIC_URL=http://localhost:3825`
+2. Verify the public url: `echo $PUBLIC_URL`
+3. Build with `yarn build`
+4. Copy the build to runduck: `cp -rf build ../runduck`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

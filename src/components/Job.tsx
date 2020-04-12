@@ -9,6 +9,7 @@ import { withTheme, Theme } from '@material-ui/core/styles';
 import Command from './Command';
 import Notification from './Notification';
 import { Typography } from '@material-ui/core';
+import { getApiUrl } from '../functions/getApiUrl';
 
 type JobProps = {
     data: any,
@@ -37,7 +38,8 @@ class Job extends Component<JobProps> {
     loadJobData(refresh:boolean=false) {
         const env = this.props.data["env"]
         const uuid = this.props.data["uuid"]
-        let url = `http://localhost:3825/api/job/${env}/${uuid}?force_refresh=${refresh}`
+        let path = `api/job/${env}/${uuid}?force_refresh=${refresh}`
+        let url = getApiUrl(path);
         fetch(url)
             .then(res => res.json())
             .then((data) => {

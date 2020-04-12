@@ -6,6 +6,7 @@ import Environment from './Environment';
 import { withTheme, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { getApiUrl } from '../functions/getApiUrl';
 
 type JobListProps = {
   theme: Theme
@@ -36,7 +37,7 @@ declare module "material-table" {
 
 class JobList extends Component<JobListProps> {
   componentDidMount() {
-    fetch('http://localhost:3825/api/jobs')
+    fetch(getApiUrl('api/jobs'))
     .then(res => res.json())
     .then((data) => {
       this.setState({ data: data.data, environments: getLookupValues(data.data, 'env') })
