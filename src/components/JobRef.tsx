@@ -12,12 +12,12 @@ class JobRef extends Component<CommandProps> {
         return(
             <Box>
                 <Typography color="textSecondary">
-                    {jobRef?.project} {jobRef?.group ? `/ ${jobRef.group}` : ''}
-                </Typography>
-                <Typography variant="subtitle1">
                     <Tooltip title="jobref">
                         <CollectionsBookmarkIcon fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
                     </Tooltip>
+                    {jobRef?.project} {jobRef?.group ? `/ ${jobRef.group}` : ''}
+                </Typography>
+                <Typography variant="subtitle1">
                     {jobRef?.name}
                 </Typography>
             </Box>

@@ -30,7 +30,7 @@ class Notification extends Component<NotificationProps> {
         return (
             <Box>
                 { this.props.notification ?
-                <Grid container spacing={3} alignItems="stretch">
+                <Grid container spacing={2} alignItems="stretch">
                     { notificationSuccess ?
                     <Grid item xs>
                         <Paper style={{height: '100%', padding: '1em'}}>

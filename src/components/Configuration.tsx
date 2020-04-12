@@ -11,12 +11,12 @@ class Configuration extends Component<CommandProps> {
         return(
             <Box>
                 <Typography color="textSecondary">
-                    {this.props.command?.type}
-                </Typography>
-                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
                     <Tooltip title="configuration">
                         <AssistantIcon fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
                     </Tooltip>
+                    {this.props.command?.type}
+                </Typography>
+                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
                     <code>{this.props.command.configuration?.command}</code>
                 </Typography>
             </Box>

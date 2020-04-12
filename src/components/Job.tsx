@@ -35,7 +35,7 @@ class Job extends Component<JobProps> {
 
     render() {
         return (
-            <Box pl={6} pr={2} pb={2} pt={1} style={{backgroundColor: this.props.theme.palette.background.default}}>
+            <Box pl={6} p={2} style={{backgroundColor: this.props.theme.palette.background.default}}>
                 {this.state.commands.map((command, i) => {
                     return (<Box key={i}>
                         <Command command={command} />

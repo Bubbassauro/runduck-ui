@@ -11,12 +11,12 @@ class Script extends Component<CommandProps> {
         return (
             <Box>
                 <Typography color="textSecondary">
-                    {this.props.command.description}
-                </Typography>
-                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
                     <Tooltip title="script">
                         <AssignmentIcon fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
                     </Tooltip>
+                    {this.props.command.description}
+                </Typography>
+                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
                     <code>{this.props.command.script}</code>
                 </Typography>
             </Box>

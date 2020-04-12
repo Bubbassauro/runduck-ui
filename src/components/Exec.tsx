@@ -11,12 +11,12 @@ class Exec extends Component<CommandProps> {
         return (
             <Box>
                 <Typography color="textSecondary">
-                    {this.props.command.description}
-                </Typography>
-                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
                     <Tooltip title="exec">
                         <Computer fontSize="small" style={{ marginRight: "5px", marginBottom: "-5px" }} />
                     </Tooltip>
+                    {this.props.command.description}
+                </Typography>
+                <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
                     <code>{this.props.command.exec}</code>
                 </Typography>
             </Box>
