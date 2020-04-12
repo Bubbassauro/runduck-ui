@@ -1,10 +1,13 @@
 import React from 'react';
 import { Component } from 'react';
 import MaterialTable from 'material-table';
-import Link from '@material-ui/core/Link';
 import Job from './Job';
 import Environment from './Environment';
+import { withTheme, Theme } from '@material-ui/core/styles';
 
+type JobListProps = {
+  theme: Theme
+}
 
 function getLookupValues(data:any, field:string) {
   const unique = new Set(data.map((item: any) => item[field] ));
@@ -29,7 +32,7 @@ declare module "material-table" {
   }
 }
 
-class JobList extends Component {
+class JobList extends Component<JobListProps> {
   componentDidMount() {
     fetch('http://localhost:3825/api/jobs')
     .then(res => res.json())
@@ -65,7 +68,9 @@ class JobList extends Component {
             tableLayout: 'fixed',
             padding: 'dense',
             rowStyle: rowData => ({
-              color: isEnabled(rowData) ? 'textPrimary' : 'textSecondary'
+              color: (isEnabled(rowData) ?
+              this.props.theme.palette.text.primary :
+              this.props.theme.palette.text.disabled)
             })
           } 
         }
@@ -79,9 +84,7 @@ class JobList extends Component {
               index={rowData['env_order']}
             />
           },
-          { title: "Job Name", field: "name", width: '30%', cellStyle: { fontWeight: 'bold' },
-            render: rowData => <Link href={rowData["permalink"]} target="_blank" color="textPrimary">{rowData["name"]}</Link>
-          },
+          { title: "Job Name", field: "name", width: '30%', cellStyle: { fontWeight: 'bold' } },
           { title: "Schedule", field: "schedule_description", width:'15em' },
           { title: "Schedule Enabled", field: "scheduleEnabled", type: "boolean", width:'6em' },
           { title: "Execution Enabled", field: "executionEnabled", type: "boolean", width:'6em' },
@@ -100,4 +103,5 @@ class JobList extends Component {
   }
 }
 
-export default JobList;
+const JobListWithTheme = withTheme(JobList);
+export default JobListWithTheme;

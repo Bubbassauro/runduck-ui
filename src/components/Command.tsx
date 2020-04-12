@@ -24,7 +24,7 @@ class Command extends Component<CommandProps> {
         }
 
         return (
-            <Box pb={2}>{commandType}</Box>
+            <Box my={2}>{commandType}</Box>
         )
     }
 }
