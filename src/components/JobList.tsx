@@ -67,6 +67,8 @@ class JobList extends Component<JobListProps> {
             filtering: true,
             tableLayout: 'fixed',
             padding: 'dense',
+            headerStyle: { position: 'sticky', top: 0 },
+            maxBodyHeight: 'calc(100vh - 127px)',
             rowStyle: rowData => ({
               color: (isEnabled(rowData) ?
               this.props.theme.palette.text.primary :

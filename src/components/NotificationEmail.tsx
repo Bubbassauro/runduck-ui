@@ -8,8 +8,8 @@ class NotificationEmail extends Component<NotificationEmailProps> {
     render() {
         return (
             <Box>
-                <Typography variant="h6">{this.props.title}</Typography>
-                <Typography variant="subtitle1" color="textSecondary">{this.props.email.subject} </Typography>
+                <Typography variant="subtitle1">{this.props.title}</Typography>
+                <Typography variant="subtitle2" color="textSecondary">{this.props.email.subject} </Typography>
                 <Typography variant="body2">{this.props.email.recipients} </Typography>
             </Box>
         )
