@@ -24,4 +24,17 @@ export type CommandProps = {
     command: CommandType
 }
 
-export default CommandProps;
+export type EmailType = {
+    recipients?: string,
+    subject?: string,
+}
+
+export type NotificationEmailProps = {
+    email: EmailType,
+    title: string,
+}
+
+export type NotificationType = {
+    onfailure?: NotificationEmailProps,
+    onsuccess?: NotificationEmailProps,
+}

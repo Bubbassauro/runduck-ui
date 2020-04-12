@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import Exec from './Exec';
-import CommandProps from './types';
+import { CommandProps } from './types';
 import JobRef from './JobRef';
 import Configuration from './Configuration';
 import Script from './Script';
@@ -24,7 +24,7 @@ class Command extends Component<CommandProps> {
         }
 
         return (
-            <Box pl={6} pb={2}>{commandType}</Box>
+            <Box pb={2}>{commandType}</Box>
         )
     }
 }

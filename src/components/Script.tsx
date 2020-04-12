@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import CommandProps from './types';
+import { CommandProps } from './types';
 
 class Script extends Component<CommandProps> {
     render() {

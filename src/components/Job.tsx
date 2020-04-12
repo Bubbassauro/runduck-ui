@@ -3,6 +3,7 @@ import { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import { withTheme, Theme } from '@material-ui/core/styles';
 import Command from './Command';
+import Notification from './Notification';
 
 type JobProps = {
     data: any,
@@ -12,7 +13,8 @@ type JobProps = {
 class Job extends Component<JobProps> {
     state = {
         description: '-',
-        commands: []
+        commands: [],
+        notification: {}
     }
 
     componentDidMount() {
@@ -24,7 +26,8 @@ class Job extends Component<JobProps> {
             .then((data) => {
                 this.setState({
                     description: data["description"],
-                    commands: (data["sequence"] ? data["sequence"]["commands"] : [])
+                    commands: (data["sequence"] ? data["sequence"]["commands"] : []),
+                    notification: data["notification"]
                 })
             })
             .catch(console.log)
@@ -32,10 +35,13 @@ class Job extends Component<JobProps> {
 
     render() {
         return (
-            <Box p={1} style={{backgroundColor: this.props.theme.palette.background.default}}>
+            <Box pl={6} pr={2} pb={2} pt={1} style={{backgroundColor: this.props.theme.palette.background.default}}>
                 {this.state.commands.map((command, i) => {
-                    return (<Command command={command} key={i} />)
-                })}
+                    return (<Box key={i}>
+                        <Command command={command} />
+                        </Box>)
+                    })}
+                <Notification notification={this.state.notification} />
             </Box>
         )
     }
