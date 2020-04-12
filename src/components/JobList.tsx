@@ -1,13 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import MaterialTable from 'material-table';
-import Chip from '@material-ui/core/Chip';
 import Job from './Job';
+import Environment from './Environment';
 
-function getChipColor(env_index: number) {
-  const colors = ['#c5e1a5', '#e1bee7', '#81d4fa', '#ffcc80', '#f48fb1', '#a5d6a7']
-  return colors[env_index]
-}
 
 function getLookupValues(data:any, field:string) {
   const unique = new Set(data.map((item: any) => item[field] ));
@@ -77,9 +73,11 @@ class JobList extends Component {
           { title: "Group", field: "group", width:'15em', cellStyle: { paddingLeft: '50px'} },
           { title: "Environment", field: 'env', width:'7em', lookup:this.state.environments, 
             render: rowData =>
-            <Chip size="small"
+            <Environment
               label={rowData['env']}
-              style={{backgroundColor: getChipColor(rowData['env_order'])}} /> },
+              index={rowData['env_order']}
+            />
+          },
           { title: "Job Name", field: "name", width: '30%', cellStyle: { fontWeight: 'bold' } },
           { title: "Schedule", field: "schedule_description", width:'15em' },
           { title: "Schedule Enabled", field: "scheduleEnabled", type: "boolean", width:'6em' },
