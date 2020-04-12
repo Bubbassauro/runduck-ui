@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import MaterialTable from 'material-table';
+import Link from '@material-ui/core/Link';
 import Job from './Job';
 import Environment from './Environment';
 
@@ -78,7 +79,9 @@ class JobList extends Component {
               index={rowData['env_order']}
             />
           },
-          { title: "Job Name", field: "name", width: '30%', cellStyle: { fontWeight: 'bold' } },
+          { title: "Job Name", field: "name", width: '30%', cellStyle: { fontWeight: 'bold' },
+            render: rowData => <Link href={rowData["permalink"]} target="_blank" color="textPrimary">{rowData["name"]}</Link>
+          },
           { title: "Schedule", field: "schedule_description", width:'15em' },
           { title: "Schedule Enabled", field: "scheduleEnabled", type: "boolean", width:'6em' },
           { title: "Execution Enabled", field: "executionEnabled", type: "boolean", width:'6em' },
