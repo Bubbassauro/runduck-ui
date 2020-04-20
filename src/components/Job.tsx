@@ -16,6 +16,14 @@ type JobProps = {
     theme: Theme
 }
 
+function formatLocalDate(isoDate: string) {
+    if (isoDate) {
+        const dt = new Date(isoDate);
+        return dt.toLocaleString();
+    }
+    return '';
+}
+
 class Job extends Component<JobProps> {
     state = {
         description: '-',
@@ -23,10 +31,14 @@ class Job extends Component<JobProps> {
         permalink: '',
         commands: [],
         notification: {},
-        updated: ''
+        updated: '',
+        executionStatus: '',
+        dateStarted: '',
+        dateEnded: '',
+        duration: ''
     }
 
-    getUpdatedStr(updated:string) {
+    getUpdatedStr(updated: string) {
         if (updated) {
             const updated_dt = new Date(updated);
             const updated_msg = `Last Updated: ${updated_dt.toString()}`
@@ -35,7 +47,7 @@ class Job extends Component<JobProps> {
         return "";
     }
 
-    loadJobData(refresh:boolean=false) {
+    loadJobData(refresh: boolean = false) {
         const env = this.props.data["env"]
         const uuid = this.props.data["uuid"]
         let path = `api/job/${env}/${uuid}?force_refresh=${refresh}`
@@ -55,17 +67,42 @@ class Job extends Component<JobProps> {
             .catch(console.log)
     }
 
+    loadExecutionData() {
+        const env = this.props.data["env"]
+        const uuid = this.props.data["uuid"]
+        let path = `api/job/${env}/${uuid}/execution`
+        let url = getApiUrl(path);
+        fetch(url)
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({
+                    executionStatus: data["status"],
+                    dateStated: formatLocalDate(data["date-started"]["date"]),
+                    dateEnded: formatLocalDate(data["date-ended"]["date"]),
+                    duration: data["duration"]
+                })
+            })
+            .catch(console.log)
+    }
+
     componentDidMount() {
         this.loadJobData();
+        this.loadExecutionData();
     }
 
     render() {
         return (
-            <Box pl={6} p={2} style={{backgroundColor: this.props.theme.palette.background.default}}>
+            <Box pl={6} p={2} style={{ backgroundColor: this.props.theme.palette.background.default }}>
                 <Grid container>
                     <Grid item style={{ flex: 1 }}>
                         <Link variant="h6" href={this.state.permalink} color="textPrimary"
                             target="_blank">{this.state.name}</Link>
+                        <Typography variant="body2" color="textSecondary">
+                            Last execution&nbsp;
+                            {this.state.executionStatus}&nbsp;
+                            at {this.state.dateEnded}&nbsp;
+                            for {this.state.duration}
+                        </Typography>
                     </Grid>
                     <Grid item>
                         <Typography noWrap variant="body2" color="textSecondary">{this.state.updated}
@@ -73,10 +110,10 @@ class Job extends Component<JobProps> {
                             <Button
                                 variant="contained"
                                 size="small"
-                                startIcon={<Refresh/>}
+                                startIcon={<Refresh />}
                                 onClick={() => this.loadJobData(true)}
                             >
-                            Refresh
+                                Refresh
                             </Button>
                         </Typography>
                     </Grid>
@@ -84,8 +121,8 @@ class Job extends Component<JobProps> {
                 {this.state.commands.map((command, i) => {
                     return (<Box key={i}>
                         <Command command={command} />
-                        </Box>)
-                    })}
+                    </Box>)
+                })}
                 <Notification notification={this.state.notification} />
             </Box>
         )
