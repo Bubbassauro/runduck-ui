@@ -100,11 +100,15 @@ class Execution extends Component<ExecutionProps> {
             )
         }
         else {
-            return (<Tooltip title={this.state.message} placement="right-start">
+            return (
                 <Typography variant="body2" color="error">
-                    {this.state.friendlyMessage}
+                    <Tooltip title={this.state.message} placement="right">
+                        <Box display="inline">
+                            {this.state.friendlyMessage}
+                        </Box>
+                    </Tooltip>
                 </Typography>
-            </Tooltip>)
+            )
         }
     }
 }
