@@ -65,12 +65,14 @@ class Execution extends Component<ExecutionProps> {
             .then(res => {
                 const { statusCode, data } = res;
                 if (statusCode === 200) {
-                    this.setState({
-                        executionStatus: data["status"],
-                        dateStated: formatLocalDate(data["date-started"]["date"]),
-                        dateEnded: formatLocalDate(data["date-ended"]["date"]),
-                        duration: data["duration"]
-                    })
+                    if (data["status"]) {
+                        this.setState({
+                            executionStatus: data["status"],
+                            dateStated: formatLocalDate(data["date-started"]["date"]),
+                            dateEnded: formatLocalDate(data["date-ended"]["date"]),
+                            duration: data["duration"]
+                        })
+                    }
                 }
                 else {
                     this.setState({
@@ -79,7 +81,13 @@ class Execution extends Component<ExecutionProps> {
                     })
                 }
             })
-            .catch(console.log)
+            .catch((error) => {
+                // Treat api error when running in debug mode
+                this.setState({
+                    message: error.toString(),
+                    friendlyMessage: "Unable to retrieve last execution details"
+                });
+            })
     }
 
     componentDidMount() {
@@ -89,25 +97,29 @@ class Execution extends Component<ExecutionProps> {
     render() {
         if (this.state.executionStatus) {
             return (
-                <Typography variant="body2" color="textPrimary">
-                    Last execution
+                <Box>
+                    <Typography variant="body2" color="textPrimary" display="inline">
+                        Last execution
+                    </Typography>
                     <Box display="inline" color={getStatusColor(this.state.executionStatus)} px={.5}>
                         {this.state.executionStatus}
                     </Box>
-                at {this.state.dateEnded}&nbsp;
-                in {this.state.duration}
-                </Typography>
+                    <Typography variant="body2" color="textPrimary" display="inline">
+                        at {this.state.dateEnded}&nbsp;
+                        in {this.state.duration}
+                    </Typography>
+                </Box>
             )
         }
         else {
             return (
-                <Typography variant="body2" color="error">
+                <Box>
                     <Tooltip title={this.state.message} placement="right">
-                        <Box display="inline">
+                        <Typography variant="body2" color="error" display="inline">
                             {this.state.friendlyMessage}
-                        </Box>
+                        </Typography>
                     </Tooltip>
-                </Typography>
+                </Box>
             )
         }
     }
